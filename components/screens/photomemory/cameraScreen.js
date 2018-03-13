@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Image } from "react-native";
 import { Camera, Permissions } from "expo";
 import {
   Container,
@@ -9,10 +9,15 @@ import {
   Button,
   Icon,
   Body,
-  Title
+  Title,
+  Card,
+  Text,
+  CardItem
 } from "native-base";
+import { connect } from "react-redux";
+import { dispatch } from "@rematch/core";
 
-export default class cameraScreen extends Component {
+class CameraScreen extends Component {
   state = {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
@@ -28,13 +33,21 @@ export default class cameraScreen extends Component {
 
   snap = async () => {
     if (this.camera) {
-      const photo = await this.camera.takePictureAsync();
-      this.setState({ photo });
+      await this.camera
+        .takePictureAsync({ base64: true, quality: 0.5 })
+        .then(photo => {
+          this.setState({ photo });
+          dispatch.photoModel.addPhoto(photo);
+        });
     }
   };
 
   render() {
-    const { hasCameraPermission } = this.state;
+    const { photo } = this.state;
+    /*     console.log("THE PHOTO ==> ", photo.uri);
+ */ const {
+      hasCameraPermission
+    } = this.state;
     if (hasCameraPermission === null) {
       return <View />;
     } else if (hasCameraPermission === false) {
@@ -67,61 +80,92 @@ export default class cameraScreen extends Component {
             )}
           </Right>
         </Header>
-        <View style={{ flex: 1 }}>
-          <Camera
-            style={{ flex: 1 }}
-            type={this.state.type}
-            autoFocus={this.state.autoFocus}
-            flashMode={this.state.flashMode}
-            ref={ref => {
-              this.camera = ref;
-            }}
-          >
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: "transparent",
-                flexDirection: "row"
-              }}
-            />
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingHorizontal: 10,
-                marginBottom: 15,
-                alignItems: "flex-end"
+        {photo ? (
+          <View style={{ flex: 1 }}>
+            <Card>
+              <CardItem>
+                <Left>
+                  <Body>
+                    <Text>Review Image</Text>
+                    <Text note>powered by native-base</Text>
+                  </Body>
+                </Left>
+                <Right>
+                  <Button
+                    transparent
+                    onPress={() => this.setState({ photo: null })}
+                  >
+                    <Icon name="md-close-circle" />
+                  </Button>
+                </Right>
+              </CardItem>
+              <CardItem cardBody>
+                <Image
+                  style={{ height: 600, width: null, flex: 1 }}
+                  source={{ isStatic: true, uri: photo.uri }}
+                />
+              </CardItem>
+            </Card>
+          </View>
+        ) : (
+          <View style={{ flex: 1 }}>
+            <Camera
+              style={{ flex: 1 }}
+              type={this.state.type}
+              autoFocus={this.state.autoFocus}
+              flashMode={this.state.flashMode}
+              ref={ref => {
+                this.camera = ref;
               }}
             >
-              <Icon
-                name="ios-reverse-camera"
-                style={{ color: "white", fontSize: 36 }}
-                onPress={() => {
-                  this.setState({
-                    type:
-                      this.state.type === Camera.Constants.Type.back
-                        ? Camera.Constants.Type.front
-                        : Camera.Constants.Type.back
-                  });
+              <View
+                style={{
+                  flex: 1,
+                  backgroundColor: "transparent",
+                  flexDirection: "row"
                 }}
               />
-
-              <View style={{ alignItems: "center" }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingHorizontal: 10,
+                  marginBottom: 15,
+                  alignItems: "flex-end"
+                }}
+              >
                 <Icon
-                  name="camera"
-                  style={{ color: "white", fontSize: 65 }}
-                  onPress={this.snap}
+                  name="ios-reverse-camera"
+                  style={{ color: "white", fontSize: 36 }}
+                  onPress={() => {
+                    this.setState({
+                      type:
+                        this.state.type === Camera.Constants.Type.back
+                          ? Camera.Constants.Type.front
+                          : Camera.Constants.Type.back
+                    });
+                  }}
+                />
+
+                <View style={{ alignItems: "center" }}>
+                  <Icon
+                    name="camera"
+                    style={{ color: "white", fontSize: 65 }}
+                    onPress={this.snap}
+                  />
+                </View>
+                <Icon
+                  name="images"
+                  style={{ color: "white", fontSize: 36 }}
+                  onPress={this.pickImage}
                 />
               </View>
-              <Icon
-                name="images"
-                style={{ color: "white", fontSize: 36 }}
-                onPress={this.pickImage}
-              />
-            </View>
-          </Camera>
-        </View>
+            </Camera>
+          </View>
+        )}
       </Container>
     );
   }
 }
+
+export default connect(({ photoModel }) => ({ photoModel }))(CameraScreen);

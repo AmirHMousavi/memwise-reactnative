@@ -1,6 +1,7 @@
 import React from "react";
 import * as Expo from "expo";
 import { StyleProvider } from "native-base";
+import {} from 'react-native';
 import { Provider } from "react-redux";
 import { init } from "@rematch/core";
 import * as firebase from "firebase";

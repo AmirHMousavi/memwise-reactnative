@@ -7,16 +7,18 @@ import SideBar from "../sidebar/sidebar";
 import ProfileScreen from "../screens/profile/profile";
 import CameraScreen from "../screens/photomemory/cameraScreen";
 import PhotoContentScreen from "../screens/photomemory/PhotoContentScreen";
+import MemoryList from "../screens/memorylist/MemoryList";
 
 const AppDrawer = DrawerNavigator(
   {
     MapScreen: { screen: MapScreen },
     ProfileScreen: { screen: ProfileScreen },
     CameraScreen: { screen: CameraScreen },
-    PhotoContentScreen: { screen: PhotoContentScreen }
+    PhotoContentScreen: { screen: PhotoContentScreen },
+    MemoryList: { screen: MemoryList }
   },
   {
-    initialRouteName: "CameraScreen",
+    initialRouteName: "MapScreen",
     contentOptions: {
       activeTintColor: "#3F7FBF",
       inactiveTintColor: "#4A6681"

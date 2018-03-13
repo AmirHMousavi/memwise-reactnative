@@ -88,12 +88,12 @@ class MapScreen extends Component {
 
   render() {
     const { region, errorMessage } = this.props.locationModel;
-    console.log(
+/*     console.log(
       "region recieved form store and is:",
       JSON.stringify(region),
       " and errormessage: ",
       errorMessage
-    );
+    ); */
     let text = "Waiting..";
     if (this.isEmptyObject(region)) {
       return (

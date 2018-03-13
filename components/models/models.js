@@ -21,11 +21,33 @@ export const locationModel = {
 };
 
 export const userModel = {
-    state: {},
-    reducers: {
-      addUser(state, user) {
-        console.log("addUser dispatched: ");
-        return { state, user };
-      }
+  state: {},
+  reducers: {
+    addUser(state, user) {
+      console.log("addUser dispatched: ", user.uid);
+      return { state, user };
     }
-  };
+  }
+};
+
+export const photoModel = {
+  state: {},
+  reducers: {
+    addPhoto(state, photo) {
+      console.log("add photo triggered");
+      return { state, photo };
+    }
+  }
+};
+
+export const memoryModel = {
+  state: {
+    listViewData: []
+  },
+  reducers: {
+    addMemory(state, memory) {
+      console.log("addMemory dispatched", memory);
+      return { ...state, ...memory };
+    }
+  }
+};

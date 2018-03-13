@@ -30,6 +30,12 @@ const datas = [
     route: "ProfileScreen",
     icon: "ios-person",
     bg: "#C5F442"
+  },
+  {
+    name: "MemoryList",
+    route: "MemoryList",
+    icon: "md-list-box",
+    bg: "#C5F442"
   }
 ];
 class SideBar extends Component {

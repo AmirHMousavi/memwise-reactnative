@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { View, Alert } from "react-native";
+import { Alert } from "react-native";
 import { Container, Content } from "native-base";
 import { connect } from "react-redux";
-import { dispatch } from "@rematch/core";
 import { Facebook, Google } from "expo";
 import * as firebase from "firebase";
 
@@ -29,14 +28,14 @@ class LoginScreen extends Component {
       });
 
       if (result.type === "success") {
-        console.log("GGLOGIN RESULT: ", result);
-        // Create a new Firebase credential with the token
+        /*         console.log("GGLOGIN RESULT: ", result);
+ */ // Create a new Firebase credential with the token
         const credential = firebase.auth.GoogleAuthProvider.credential(
           result.idToken,
           result.accessToken
         );
-        console.log("credential: ", credential);
-        firebase
+        /*         console.log("credential: ", credential);
+ */ firebase
           .auth()
           .signInWithCredential(credential)
           .then(user => {
@@ -44,7 +43,8 @@ class LoginScreen extends Component {
           })
           .catch(error => {
             Alert.alert(JSON.stringify(error));
-            console.log("signInWithCredential error: ", error);
+            /*             console.log("signInWithCredential error: ", error);
+ */
           });
         return result.accessToken;
       }
@@ -64,13 +64,14 @@ class LoginScreen extends Component {
     if (type === "success") {
       // authentication with firebase using facebook token
       const credential = firebase.auth.FacebookAuthProvider.credential(token);
-      console.log("credentials: ", credential);
-      firebase
+      /*       console.log("credentials: ", credential);
+ */ firebase
         .auth()
         .signInWithCredential(credential)
         .catch(error => {
           Alert.alert(error);
-          console.log("signInWithCredential error: ", error);
+          /*           console.log("signInWithCredential error: ", error);
+ */
         });
       // use callgraph to get user info
       /* this.callGraph(token); */
