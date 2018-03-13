@@ -87,13 +87,13 @@ class PhotoContentScreen extends Component {
             <Item regular>
               <Input
                 placeholder="Title"
-                onChange={title => this.setState({ title })}
+                onChange={e => this.setState({ title: e })}
               />
             </Item>
             <Item regular style={{ height: 200 }}>
               <Input
                 placeholder="Description"
-                onChange={description => this.setState({ description })}
+                onChange={e => this.setState({ description: e })}
               />
             </Item>
             <Item regular>
