@@ -52,6 +52,8 @@ class PhotoContentScreen extends Component {
 
   render() {
     const { region, photo } = this.props;
+    const { title, description } = this.state;
+    console.log(title, description);
     if (photo) {
       /* console.log("form photocontent==>>>", photo.uri); */
       this.getBLOB(photo);
@@ -87,13 +89,13 @@ class PhotoContentScreen extends Component {
             <Item regular>
               <Input
                 placeholder="Title"
-                onChange={e => this.setState({ title: e })}
+                onChangeText={e => this.setState({ title: e })}
               />
             </Item>
             <Item regular style={{ height: 200 }}>
               <Input
                 placeholder="Description"
-                onChange={e => this.setState({ description: e })}
+                onChangeText={e => this.setState({ description: e })}
               />
             </Item>
             <Item regular>
